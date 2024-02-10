@@ -1,7 +1,7 @@
 # sky_scrapper_api
 
 A new Flutter project.
-##using MVP Structer.....
+## using MVP Structer.....
 1. model
 2. provider
 3. helper
