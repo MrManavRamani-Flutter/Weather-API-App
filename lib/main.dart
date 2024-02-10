@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         title: 'Weather Application',
         initialRoute: 'welcome',
         routes: {
-          '/': (context) => const HomeScreen(),
+          '/': (context) => HomeScreen(),
           'welcome': (context) => WelcomeScreen(),
         },
       ),

@@ -15,7 +15,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (BuildContext context) => const HomeScreen(),
+          builder: (BuildContext context) => HomeScreen(),
         ),
       );
     });
