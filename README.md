@@ -1,6 +1,19 @@
 # sky_scrapper_api
 
 A new Flutter project.
+##using MVP Structer.....
+1. model
+2. provider
+3. helper
+## Pages :
+####  i). Welcome Screen : 
+####  ii). Home Screen : 
+####  iii). Detail Screen : 
+## Video Of this Application :
+
+
+## All Pages Screenshot.....
+
 
 ## Getting Started
 
