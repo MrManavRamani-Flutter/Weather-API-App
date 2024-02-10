@@ -3,8 +3,10 @@ import 'package:sky_scrapper_api/provider/weather_provider.dart';
 import 'package:sky_scrapper_api/views/screens/weather_info.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen>
@@ -14,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen>
   final TextEditingController searchController = TextEditingController();
 
   final WeatherProvider weatherProvider = WeatherProvider();
-  // Assuming you have defined WeatherProvider
 
   @override
   void initState() {
@@ -41,63 +42,76 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text(
-              'Weather App',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-            ),
-            centerTitle: true,
-            backgroundColor: Colors.blue,
-            expandedHeight: 200,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(
-                'https://t3.ftcdn.net/jpg/05/80/90/24/240_F_580902442_xmjBIVys6czucJ4T8JgbSxh6h7EAAn1P.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.blue,
+              Colors.greenAccent.shade200.withOpacity(0.4),
+            ],
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: 'Enter City, State or Country',
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.cloud_done),
-                    onPressed: () {
-                      weatherProvider.fetchWeatherData(searchController.text);
-                    },
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: const Padding(
+                padding: EdgeInsets.only(top: 25.0),
+                child: Text(
+                  'Weather App',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
                   ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
+                ),
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.blue,
+              expandedHeight: 250,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.network(
+                  'https://t3.ftcdn.net/jpg/05/80/90/24/240_F_580902442_xmjBIVys6czucJ4T8JgbSxh6h7EAAn1P.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(16.0),
+              sliver: SliverToBoxAdapter(
+                child: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter City, State or Country',
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        weatherProvider.fetchWeatherData(searchController.text);
+                      },
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: AnimatedBuilder(
-                animation: _animationController,
-                builder: (context, child) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      weatherProvider.weather == null
-                          ? Expanded(
-                              child: Column(
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, child) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        weatherProvider.weather == null
+                            ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   FadeTransition(
@@ -120,20 +134,18 @@ class _HomeScreenState extends State<HomeScreen>
                                     ),
                                   ),
                                 ],
-                              ),
-                            )
-                          : Expanded(
-                              child: WeatherInfo(
+                              )
+                            : WeatherInfo(
                                 weather: weatherProvider.weather!,
                               ),
-                            ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
