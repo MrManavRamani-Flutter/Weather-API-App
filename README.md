@@ -6,9 +6,9 @@ A new Flutter project.
 2. provider
 3. helper
 ## Pages :
-#  i). Welcome Screen : 
-#  ii). Home Screen : 
-#  iii). Detail Screen : 
+####  i). Welcome Screen : 
+####  ii). Home Screen : 
+####  iii). Detail Screen : 
 ## Video Of this Application :
 
 
