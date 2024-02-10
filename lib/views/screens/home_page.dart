@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sky_scrapper_api/provider/weather_provider.dart';
 import 'package:sky_scrapper_api/views/screens/weather_info.dart';
 
@@ -13,9 +14,21 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
-  final TextEditingController searchController = TextEditingController();
-
+  late TextEditingController searchController = TextEditingController();
   final WeatherProvider weatherProvider = WeatherProvider();
+  late List<String> savedLocations = [];
+
+  Future<void> saveLocation(String location) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> savedLocations = prefs.getStringList('savedLocations') ?? [];
+    savedLocations.add(location);
+    await prefs.setStringList('savedLocations', savedLocations);
+  }
+
+  Future<List<String>> getSavedLocations() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList('savedLocations') ?? [];
+  }
 
   @override
   void initState() {
@@ -30,7 +43,13 @@ class _HomeScreenState extends State<HomeScreen>
         curve: Curves.easeInOut,
       ),
     );
+    loadSavedLocations();
     _animationController.repeat(reverse: true);
+  }
+
+  Future<void> loadSavedLocations() async {
+    savedLocations = await getSavedLocations();
+    setState(() {});
   }
 
   @override
@@ -88,6 +107,8 @@ class _HomeScreenState extends State<HomeScreen>
                       icon: const Icon(Icons.search),
                       onPressed: () {
                         weatherProvider.fetchWeatherData(searchController.text);
+                        saveLocation(searchController.text);
+                        loadSavedLocations();
                       },
                     ),
                     filled: true,
@@ -100,6 +121,29 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
+            // SliverPadding(
+            //   padding: const EdgeInsets.all(16.0),
+            //   sliver: SliverToBoxAdapter(
+            //     child: TextField(
+            //       controller: searchController,
+            //       decoration: InputDecoration(
+            //         hintText: 'Enter City, State or Country',
+            //         suffixIcon: IconButton(
+            //           icon: const Icon(Icons.search),
+            //           onPressed: () {
+            //             weatherProvider.fetchWeatherData(searchController.text);
+            //           },
+            //         ),
+            //         filled: true,
+            //         fillColor: Colors.grey[200],
+            //         border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(10),
+            //           borderSide: BorderSide.none,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SliverFillRemaining(
               hasScrollBody: false,
               child: Padding(

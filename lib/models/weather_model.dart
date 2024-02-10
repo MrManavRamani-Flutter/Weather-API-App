@@ -23,6 +23,9 @@ class Weather {
   final int uvIndex;
   final double gustMph;
   final double gustKph;
+  final String localtime;
+  final String icon;
+  final String tzId;
 
   Weather({
     required this.locationName,
@@ -49,6 +52,9 @@ class Weather {
     required this.uvIndex,
     required this.gustMph,
     required this.gustKph,
+    required this.localtime,
+    required this.icon,
+    required this.tzId,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
@@ -77,6 +83,9 @@ class Weather {
       uvIndex: json['current']['uv'].toInt(),
       gustMph: json['current']['gust_mph'].toDouble(),
       gustKph: json['current']['gust_kph'].toDouble(),
+      localtime: json['location']['localtime'],
+      icon: json['current']['condition']['icon'],
+      tzId: json['location']['tz_id'],
     );
   }
 }

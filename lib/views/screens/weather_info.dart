@@ -56,10 +56,23 @@ class _WeatherInfoState extends State<WeatherInfo>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.weather.locationName,
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.weather.locationName,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundImage: NetworkImage(
+                      'https:${widget.weather.icon}', // Display weather icon
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               Text(
@@ -71,6 +84,12 @@ class _WeatherInfoState extends State<WeatherInfo>
                 'Country: ${widget.weather.country}',
                 style: const TextStyle(fontSize: 18, color: Colors.grey),
               ),
+              const SizedBox(height: 8),
+              Text(
+                'Local Time: ${widget.weather.localtime}', // Display local time
+                style: const TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+              const SizedBox(height: 4),
               const Divider(),
               WeatherDetailRow(
                 label: 'Temperature:',
